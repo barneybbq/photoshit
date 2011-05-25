@@ -33,6 +33,7 @@ class PhotoFile
   end
 
   def put_watermark
+    self.put_watermark_background
     self.put_text_watermark
   end
 
@@ -58,22 +59,32 @@ class PhotoFile
       @desired_width = @width_vertical
     end
   end
-  
+
+  def put_watermark_background
+    pointsize = 11
+    background_length = @watermark_text.size*pointsize*0.95
+    
+    background = Magick::Draw.new
+    background.fill("black")
+    background.fill_opacity(0.6)
+    background.rectangle(@desired_width-background_length, @desired_height-30, @desired_width, @desired_height)
+    background.draw(@file)
+  end
   def put_text_watermark
     watermark = Magick::Draw.new
-    #position_y = @desired_height - 30
-    #position_x = @desired_width / 2 - 120
     watermark.annotate(@file, 0,0,5,2, @watermark_text) {
         self.font_family = 'Tahoma'
-        self.fill = 'white'
-        #self.undercolor = 'black'
-        #self.stroke = 'transparent'
-        self.stroke = 'black'
+        self.fill = '#efefef'
+        self.stroke = 'transparent'
+        #self.stroke = 'black'
         self.text_antialias = true
-        self.pointsize = 24
+        self.pointsize = 20
         self.font_style = Magick::NormalStyle
-        self.font_weight = Magick::BoldWeight
+        #self.font_weight = Magick::BoldWeight
+        self.font_weight = Magick::NormalWeight
         self.gravity = Magick::SouthEastGravity
+        self.interword_spacing = 3
+        self.kerning = 1.5
     }
   end
 end
