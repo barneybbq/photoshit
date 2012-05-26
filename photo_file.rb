@@ -62,7 +62,7 @@ class PhotoFile
 
   def put_watermark_background
     pointsize = 11
-    background_length = @watermark_text.size*pointsize*0.95
+    background_length = @watermark_text.size*pointsize*0.96
     
     background = Magick::Draw.new
     background.fill("black")

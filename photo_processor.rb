@@ -1,4 +1,4 @@
-require 'photo_file'
+require File.expand_path(File.dirname(__FILE__) + '/photo_file')
 
 class PhotoProcessor
   attr_accessor :source
